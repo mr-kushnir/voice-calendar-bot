@@ -26,6 +26,7 @@ class Config(BaseSettings):
     # Google Calendar
     google_calendar_credentials_path: str = Field(default="credentials.json", description="Google Calendar Credentials Path")
     google_calendar_token_path: str = Field(default="token.json", description="Google Calendar Token Path")
+    google_calendar_ics_url: Optional[str] = Field(default=None, description="Google Calendar ICS URL")
 
     # Yandex Tracker
     yandex_tracker_token: Optional[str] = Field(default=None, description="Yandex Tracker OAuth Token")

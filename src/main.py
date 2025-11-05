@@ -8,6 +8,7 @@ from src.services.voice.stt_service import STTService
 from src.services.voice.tts_service import TTSService
 from src.services.nlp.nlp_service import NLPService
 from src.services.calendar.yandex_calendar import YandexCalendarProvider
+from src.services.calendar.google_calendar import GoogleCalendarProvider
 from src.services.calendar.aggregator import CalendarAggregator
 from src.bot.handlers import BotHandlers
 
@@ -48,9 +49,15 @@ class BotApplication:
         self.calendar_aggregator = CalendarAggregator()
         self.calendar_aggregator.add_provider("yandex", self.yandex_calendar)
 
-        # TODO: Add Google Calendar provider when implemented
-        # self.google_calendar = GoogleCalendarProvider(...)
-        # self.calendar_aggregator.add_provider("google", self.google_calendar)
+        # Add Google Calendar provider if ICS URL is configured
+        if config.google_calendar_ics_url:
+            logger.info("Initializing Google Calendar provider...")
+            self.google_calendar = GoogleCalendarProvider(
+                ics_url=config.google_calendar_ics_url
+            )
+            self.calendar_aggregator.add_provider("google", self.google_calendar)
+        else:
+            logger.info("Google Calendar ICS URL not configured, skipping...")
 
         # Initialize bot handlers
         logger.info("Initializing Bot Handlers...")
