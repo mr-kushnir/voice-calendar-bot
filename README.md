@@ -2,33 +2,38 @@
 
 Telegram-бот с голосовым интерфейсом для работы с Yandex Calendar и Google Calendar.
 
-## 🎯 Текущий статус
+## 🎯 Статус проекта: ✅ ЗАВЕРШЕН
 
-### ✅ Завершено
+### ✅ MVP1 полностью реализован
 
-1. **Архитектура проекта** - ARCHITECTURE.md
-2. **План разработки** - DEVELOPMENT_PLAN.md
-3. **Структура проекта** - все директории и файлы
-4. **Интеграция с Яндекс Трекером** - 19 задач созданы (EXTEST-7 до EXTEST-25)
-5. **Data Models** - Event, Command, Intent (9/9 тестов ✅)
-6. **Configuration Management** - Pydantic Settings (5/5 тестов ✅)
+1. **EXTEST-11: Voice STT Service (Whisper)** - 7 тестов ✅
+2. **EXTEST-12: Voice TTS Service (ElevenLabs)** - 8 тестов ✅
+3. **EXTEST-13: NLP Command Parser (GPT-4)** - 10 тестов ✅
+4. **EXTEST-14: Yandex Calendar Provider (CalDAV)** - 8 тестов ✅
+5. **EXTEST-15: Calendar Aggregator** - 10 тестов ✅
+6. **EXTEST-16: Telegram Bot Handlers** - 12 тестов ✅
+7. **EXTEST-17: Main Bot Application** - 9 тестов ✅
 
-### 🔄 В работе
+### 📊 Метрики качества
 
-7. **Voice STT Service** - OpenAI Whisper интеграция
-8. **Voice TTS Service** - ElevenLabs интеграция
-9. **NLP Command Parser** - GPT-4 для парсинга команд
-10. **Yandex Calendar Provider** - CalDAV интеграция
-11. **Calendar Aggregator** - Объединение календарей
-12. **Telegram Bot Handlers** - Обработчики голосовых сообщений
-13. **Main Bot Application** - Главное приложение
+- **Всего тестов**: 89 ✅
+- **Покрытие кода**: 81.49% ✅ (требовалось 80%)
+- **Коммитов**: 7
+- **GitHub**: https://github.com/mr-kushnir/voice-calendar-bot
 
-### 📋 Следующие задачи
+### 🏗️ Архитектура
 
-- MVP2: Google Calendar интеграция
+```
+Voice Message → STT (Whisper) → NLP (GPT-4) → Calendar (Yandex)
+                                                     ↓
+User ← Voice Response ← TTS (ElevenLabs) ← Event Formatting
+```
+
+### 📋 Следующие задачи (MVP2)
+
+- Google Calendar интеграция
 - Test Agent: Автоматическое тестирование
 - CI/CD: GitHub Actions
-- Документация: Полный README
 
 ## 🚀 Быстрый старт
 
@@ -65,18 +70,28 @@ YANDEX_TRACKER_QUEUE=EXTEST
 ### 3. Запуск тестов
 
 ```bash
-# Все тесты
-pytest
+# Все unit тесты
+pytest tests/unit/ -v
 
 # С coverage
-pytest --cov=src --cov-report=html
+pytest tests/unit/ --cov=src --cov-report=html
+
+# Конкретный модуль
+pytest tests/unit/test_bot_handlers.py -v
 ```
 
-### 4. Запуск бота (после завершения разработки)
+### 4. Запуск бота
 
 ```bash
+# Запуск в режиме polling
+python -m src.main
+
+# Или напрямую
 python src/main.py
 ```
+
+Бот будет работать в режиме polling и ждать голосовых сообщений.
+Для остановки нажмите Ctrl+C.
 
 ## 📊 Яндекс Трекер
 
