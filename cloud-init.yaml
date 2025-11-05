@@ -1,0 +1,20 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - docker.io
+  - docker-compose
+
+users:
+  - name: ubuntu
+    groups: sudo, docker
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDUQ6rEiRLbpBYN4iIPcB58HOsVcbbcwB5b/JxfAHGztnSXEyXrJkY9yRBLlwLONoYlqfEAv0sGcCVG3goA7oyVKhUf59l24EnTEAAlWHtxKh9aeSiAproTpnp27jFByGp15ztoJTKNMxE31KsjN+8MzqC0aNjd1QmUrVMrsWqlynQ6jfhSTW1LMWkFXsP8sIrJ/ITaBW2FKUgQn2Rr6gAJagt52f0RDRal/YYjziurJVF9L9qI0V8F9dCBCTAA/EKXyaPYi3g3QX6gbfKcTLaO/9WzPYy41Mugc8iHiGqsYN6yDMTit6sNJGpHZQcbSx6KcDyn5vkhrULemVTOeYlgrJUO0nq/xguRNklyWEW+9ixbxRBOGSBAgyRe0UsBeD368ExiVkaGFSEsIDzUSDDmwWNxZADN556oVJDchLa7kNW1Yj4JlKybq/1T/FfOQvFW5pewRqcKd8n4Oylo1USLsxh4tV7PMONqzrBpGD0TRWl2CuEr1FL3ob+yBRbcURelgHqvDJXlqnI0NF7lleki8/ZH/Bcje+fpqtUYCyFKmSwo18twSP4y6ncTk+6pgAICkZqdc9ZtEDOLhCJt5EHNO3n+BLjGFAid8/40jHBeSsbijoGFesNS4EumA6ZZ1HjvnZqAiln4WM/jPQfnkBXSypTXRHXLgKaa9a/MAxjcOw== ak@DESKTOP-TUVQRMQ
+
+runcmd:
+  - systemctl start docker
+  - systemctl enable docker
+  - usermod -aG docker ubuntu
