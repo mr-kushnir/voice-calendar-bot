@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: voice-calendar-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - bot-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Test Agent service (polling mode)
+  test-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: test-agent
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    command: ["python", "scripts/run_test_agent.py"]
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    profiles:
+      - test-agent
+
+  # Optional: Webhook Test Agent service
+  webhook-test-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: webhook-test-agent
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    command: ["python", "scripts/run_webhook_test_agent.py"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    profiles:
+      - webhook-agent
+
+networks:
+  bot-network:
+    driver: bridge
+
+volumes:
+  logs:
+  data:
