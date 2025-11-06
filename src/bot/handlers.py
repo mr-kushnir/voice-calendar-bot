@@ -134,13 +134,18 @@ class BotHandlers:
             # Step 3: Execute command
             response_text = await self._execute_command(command)
 
-            # Step 4: Synthesize speech
-            await update.message.reply_text("🔊 Генерирую ответ...")
-            audio_data = await self.tts_service.synthesize(response_text)
+            # Step 4: Try to send voice response
+            try:
+                await update.message.reply_text("🔊 Генерирую ответ...")
+                audio_data = await self.tts_service.synthesize(response_text)
 
-            # Step 5: Send voice response
-            await update.message.reply_voice(voice=audio_data)
-            logger.info(f"Voice response sent to user {user_id}")
+                # Try to send voice
+                await update.message.reply_voice(voice=audio_data)
+                logger.info(f"Voice response sent to user {user_id}")
+            except Exception as voice_error:
+                # Fallback to text if voice sending fails
+                logger.warning(f"Could not send voice message ({voice_error}), sending text instead")
+                await update.message.reply_text(f"📝 {response_text}")
 
         except Exception as e:
             logger.error(f"Error processing voice message: {e}")
