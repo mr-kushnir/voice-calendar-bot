@@ -1,0 +1,26 @@
+spec:
+  containers:
+  - name: voice-calendar-bot
+    image: cr.yandex/crpt07fh0n2t32v0otd8/voice-calendar-bot:latest
+    env:
+    - name: TELEGRAM_BOT_TOKEN
+      value: ${TELEGRAM_BOT_TOKEN}
+    - name: OPENAI_API_KEY
+      value: ${OPENAI_API_KEY}
+    - name: ELEVENLABS_API_KEY
+      value: ${ELEVENLABS_API_KEY}
+    - name: ELEVENLABS_VOICE_ID
+      value: ${ELEVENLABS_VOICE_ID}
+    - name: YANDEX_CALENDAR_URL
+      value: ${YANDEX_CALENDAR_URL}
+    - name: YANDEX_CALENDAR_USER
+      value: ${YANDEX_CALENDAR_USER}
+    - name: YANDEX_CALENDAR_PASSWORD
+      value: ${YANDEX_CALENDAR_PASSWORD}
+    - name: YANDEX_TRACKER_TOKEN
+      value: ${YANDEX_TRACKER_TOKEN}
+    - name: YANDEX_TRACKER_ORG_ID
+      value: ${YANDEX_TRACKER_ORG_ID}
+    - name: USE_WEBHOOK
+      value: "false"
+    restartPolicy: Always
