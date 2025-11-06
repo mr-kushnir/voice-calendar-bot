@@ -217,6 +217,16 @@ class BotHandlers:
                 else:
                     return f"Встреч с {person} не найдено."
 
+            elif command.intent == Intent.CREATE_EVENT:
+                title = command.parameters.get("title", "Новая встреча")
+                time_str = command.parameters.get("time", "")
+
+                logger.info(f"Creating event: title='{title}', time='{time_str}'")
+
+                # For now, return a message that we received the request
+                # TODO: Parse time and actually create the event
+                return f"Функция создания встреч находится в разработке.\n\nЯ получил запрос:\nНазвание: {title}\nВремя: {time_str}\n\nПока вы можете создать встречу вручную в календаре."
+
             elif command.intent == Intent.UNKNOWN:
                 return "Извините, я не понял вашу команду. Попробуйте сказать: 'Что сегодня в календаре?'"
 
