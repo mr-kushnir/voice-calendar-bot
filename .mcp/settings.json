@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "yandex-tracker": {
+      "transport": {
+        "type": "sse",
+        "url": "https://db8ss12906fjgalcbbtf.5p9km096.mcpgw.serverless.yandexcloud.net/sse"
+      },
+      "name": "Yandex Tracker MCP Server",
+      "description": "MCP server for Yandex Tracker integration",
+      "env": {
+        "YANDEX_TRACKER_TOKEN": "${env:YANDEX_TRACKER_TOKEN}",
+        "YANDEX_TRACKER_ORG_ID": "${env:YANDEX_TRACKER_ORG_ID}"
+      }
+    }
+  }
+}
